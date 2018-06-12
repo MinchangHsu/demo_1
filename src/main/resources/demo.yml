@@ -1,0 +1,7 @@
+---
+spring:
+  application:
+    name: "demo"
+        
+logging:
+  file: "../logs/${spring.application.name}.log"

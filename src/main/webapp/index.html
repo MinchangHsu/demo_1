@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+		<title> JUNZE Business</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<!--<script src="https://code.jquery.com/jquery.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		-->
+		<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+
+		<!--[if lt IE 9]>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			.inputType{
+				margin-bottom: 20px;
+
+			}
+			.inputTypeTh{
+				margin-bottom: 20px;
+				width: 30px;
+				border-color: #fff;
+				border-width: 0px;
+			}
+		</style>
+		<script type="text/javascript">
+			function init(){
+				$("#loginBtn").bind('click',formSubmit);
+				$("#cleanBtn").bind('click',formClean);
+			}
+
+			var formSubmit = function(){
+				$("#loginForm").submit();
+
+			};
+			var formClean = function(){
+				$("#userID").val("");
+				$("#userPSW").val("");
+			};
+
+		</script>
+	</head>
+
+	<body onload="init();">
+		<div style="margin-top:300px; ">
+			<center>
+				<h3>JUNZE Business- System</h3>
+			</center>
+		</div>
+		<div>
+			<center>
+				<form id="loginForm" action="/aa/hello" method="POST">
+					<table>
+						<tr>
+							<th><input type="text" class="inputTypeTh" readonly value="帳號">：</th>
+							<td><input type="text" id="userID" name="id" class="inputType"></td>
+						</tr>
+						<tr>
+							<th><input type="text" class="inputTypeTh" readonly value="密碼">：</th>
+							<td><input type="password" id="userPSW" name="psw" class="inputType"></td>
+						</tr>
+					</table>
+					<div style="margin-right: 20px;margin-top: 10px;padding-left: 50px;">
+						<input type="button" id="loginBtn" name="login" value="登入" style="margin-right: 20px;">
+						<input type="button" id="cleanBtn" name="clean" value="清除">
+					</div>
+				</form>
+			</center>
+		</div>
+		
+		
+		<script src="https://code.jquery.com/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</body>
+</html>
