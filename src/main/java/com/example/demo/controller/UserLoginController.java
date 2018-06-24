@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import com.example.demo.dao.CustomerRepository;
 import com.example.demo.model.MinTbCustomerJpa;
 
 @Controller
-@RequestMapping("/aa")
+@RequestMapping("/userLoginController")
 public class UserLoginController {
 	
 	private static final Logger logger = LogManager.getLogger(UserLoginController.class);
@@ -33,55 +34,36 @@ public class UserLoginController {
 	@Autowired
 	DataSource dataSource;
     
-    @RequestMapping(value = "/hello", method = {RequestMethod.POST})
-    public @ResponseBody String getHealth(@RequestParam Map<String,Object> param){
-        System.out.println("我已經進入Controller");
-        System.out.println("我是參數:"+param);
+	@RequestMapping(value = "/Registered", method = {RequestMethod.POST})
+	public @ResponseBody String getRegistered(@RequestParam Map<String,Object> param){
+		logger.info("=============== getRegistered ======================");
+		logger.info("請求參數:[{}]",param);
+		
+		
+		
+		logger.info("=============== getRegistered ======================");
+		
+		return "結束";
+	}
+	
+    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    public @ResponseBody Map<String,Object> getLoginSystem(@RequestParam Map<String,Object> param){
+		logger.info("=============== getLoginSystem ======================");
+		logger.info("請求參數:[{}]",param);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		Map<String,String> resultMap = new HashMap<String,String>();
+		map.put("resp_code", "000000");
+		resultMap.put("identity", "000000");
+		resultMap.put("token", "000000");
+		resultMap.put("merchantId", "000000");
+		resultMap.put("parent", "000000");
+		resultMap.put("Name", "000000");
+		
+		map.put("result", resultMap);
+		logger.info("=============== getLoginSystem ======================");
         
-        List<MinTbCustomerJpa> list = CustomerRepository.findAll();
-        System.out.println("list.size:"+list.size());
-        MinTbCustomerJpa test = list.get(0);
-        System.out.println(test.getCustomerId());
-        System.out.println(test.getCreatName());
-        System.out.println(test.getCustomerAddr());
-        System.out.println(test.getCustomerContact());
-        System.out.println(test.getCustomerUserId());
-        System.out.println(test.getCustomerFax());
-        
-        
-        logger.info("================== start ================================");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("****************6666666666666666666666******************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("********************************************************");
-        logger.debug("****************6666666666666666666666******************");
-        logger.info("==================  end  ================================");
-
-       
-        
-        System.out.println("========================================");
-        
-        MinTbCustomerJpa test3 = CustomerRepository.findByCustomerUserIdAndCustomerOpertora("666123",96385214);
-        System.out.println(test3.getCustomerId());
-        System.out.println(test3.getCreatName());
-        System.out.println(test3.getCustomerAddr());
-        System.out.println(test3.getCustomerContact());
-        System.out.println(test3.getCustomerUserId());
-        System.out.println(test3.getCustomerFax());
-
-        
-        return "結束";
+        return map;
     }
 }

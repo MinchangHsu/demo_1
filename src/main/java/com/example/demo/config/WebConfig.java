@@ -19,7 +19,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	private static final Logger logger = LoggerFactory.getLogger(WebConfig.class);
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/index.html");
+//        registry.addViewController("/").setViewName("forward:/index.html");
+        registry.addViewController("/").setViewName("forward:/login.html");
     }
     
     
