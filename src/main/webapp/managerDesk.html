@@ -67,7 +67,7 @@
             <div class="layui-tab-item layui-show" style="margin: 30px 10px; margin-left: 30px;">
                 <span class="layui-breadcrumb">
                     <a href="/">首页</a>
-                    <a href="/demo/">訂單管理</a>
+                    <a><cite>訂單管理</cite></a>
                     <a><cite>查詢訂單</cite></a>
                 </span>
             </div>
@@ -75,27 +75,35 @@
             <form class="layui-form" action="">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <label class="layui-form-label">验证手机</label>
+                        <label class="layui-form-label">訂單編號</label>
                         <div class="layui-input-inline">
-                            <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                            <input type="tel" name="orderNumber" lay-verify="required|number" autocomplete="off" class="layui-input" value="123456798">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">验证邮箱</label>
+                        <label class="layui-form-label">廠商編號</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                            <input type="text" name="customerNumber" lay-verify="customerNumber" autocomplete="off" class="layui-input" value="asd20181014123">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <label class="layui-form-label">验证日期</label>
+                        <label class="layui-form-label">訂單日期(起)</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                            <input type="text" name="startDate" id="date" lay-verify="date|checkStartDate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                         </div>
+                        <label class="layui-form-label">訂單日期(迄)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="endDate" id="date1" lay-verify="date1" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-input-block" style="margin-top: 5px;">
+                        <button class="layui-btn" lay-submit="" lay-filter="demo1">查詢</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">清除</button>
                     </div>
                 </div>
             </form>
             <!-- 結果區域 -->
-            <div style="padding: 15px;">
+            <div style="padding: 5px;">
                 <table class="layui-hide" id="order" lay-filter="demo"></table>
                 <script type="text/html" id="barDemo">
                     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
@@ -174,6 +182,18 @@
             pass: [/(.+){6,12}$/, '密码必须6到12位'],
             content: function(value) {
                 layedit.sync(editIndex);
+            },//
+            customerNumber:[/([a-z]){3}([0-9]){11}$/,'廠商編號格式錯誤'],
+            checkStartDate: function(value){
+                console.log(value);
+                var aa = new Date(value);
+                console.log(aa);
+                var bb = $('#endDate');
+                console.log(bb);
+                
+
+
+
             }
         });
 
