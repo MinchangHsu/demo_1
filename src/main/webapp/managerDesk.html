@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">Junze - Business </div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item"><a href="">控制台</a></li>
+                <li class="layui-nav-item"><a href="">客戶</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">其它系统</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">邮件管理</a></dd>
+                        <dd><a href="">消息管理</a></dd>
+                        <dd><a href="">授权管理</a></dd>
+                    </dl>
+                </li>
+            </ul>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="images/test.jpg" class="layui-nav-img">
+                    maggie
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">基本资料</a></dd>
+                        <dd><a href="">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">登出</a></li>
+            </ul>
+        </div>
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">訂單管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">新增訂單</a></dd>
+                            <dd><a href="javascript:;">查詢訂單</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">商品管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">新增商品</a></dd>
+                            <dd><a href="javascript:;">查詢商品</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-body">
+            <div class="layui-tab-item layui-show" style="margin: 30px 10px; margin-left: 30px;">
+                <span class="layui-breadcrumb">
+                    <a href="/">首页</a>
+                    <a href="/demo/">訂單管理</a>
+                    <a><cite>查詢訂單</cite></a>
+                </span>
+            </div>
+            <!-- 搜尋區域 -->
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">验证手机</label>
+                        <div class="layui-input-inline">
+                            <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">验证邮箱</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">验证日期</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- 結果區域 -->
+            <div style="padding: 15px;">
+                <table class="layui-hide" id="order" lay-filter="demo"></table>
+                <script type="text/html" id="barDemo">
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                </script>
+            </div>
+        </div>
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © layui.com - 底部固定区域
+        </div>
+    </div>
+    <script src="layui/layui.js"></script>
+    <script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+
+    });
+
+    layui.use('table', function() {
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#order', // 對應哪個table 的 id
+            height: 600, // 表格高度  full - 20  全屏 - 差值
+            url: '/userLoginController/test', //数据接口
+            method: "POST",
+            page: true, //开启分页
+            cols: [
+                [ //表头
+                    { field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
+                    { field: 'username', title: '用户名', width: 80 },
+                    { field: 'sex', title: '性别', width: 80, sort: true },
+                    { field: 'city', title: '城市', width: 80 },
+                    { field: 'sign', title: '签名', width: 177 },
+                    { field: 'experience', title: '积分', width: 80, sort: true },
+                    { field: 'score', title: '评分', width: 80, sort: true },
+                    { field: 'classify', title: '职业', width: 80 },
+                    { field: 'wealth', title: '财富', width: 135, sort: true }
+                ]
+            ],
+            limit: 50,
+            limits: [10, 30, 50, 100, 300],
+            loading: true,
+        });
+
+    });
+
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form,
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+        //自定义验证规则
+        form.verify({
+            title: function(value) {
+                if (value.length < 5) {
+                    return '标题至少得5个字符啊';
+                }
+            },
+            pass: [/(.+){6,12}$/, '密码必须6到12位'],
+            content: function(value) {
+                layedit.sync(editIndex);
+            }
+        });
+
+        //监听指定开关
+        form.on('switch(switchTest)', function(data) {
+            layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data) {
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            return false;
+        });
+
+        //表单初始赋值
+        form.val('example', {
+            "username": "贤心" // "name": "value"
+                ,
+            "password": "123456",
+            "interest": 1,
+            "like[write]": true //复选框选中状态
+                ,
+            "close": true //开关状态
+                ,
+            "sex": "女",
+            "desc": "我爱 layui"
+        })
+
+
+    });
+    </script>
+</body>
+
+</html>

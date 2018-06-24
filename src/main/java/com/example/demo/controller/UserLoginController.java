@@ -1,6 +1,14 @@
 package com.example.demo.controller;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.SocketException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,4 +74,48 @@ public class UserLoginController {
         
         return map;
     }
+    
+    
+    @RequestMapping(value = "/test", method = {RequestMethod.POST})
+    public @ResponseBody String testHTML(@RequestParam Map<String,Object> param){
+    	logger.info("=============== getOrderData ======================");
+    	logger.info("請求參數:[{}]",param);
+    	
+    	Map<String,Object> map = new HashMap<String,Object>();
+    	
+    	Map<String,String> resultMap = new HashMap<String,String>();
+    	
+    	String surl = "http://www.layui.com/demo/table/user/?";
+    	
+    	String charset = "UTF-8";
+    	String data = "page="+param.get("page")+"&limit="+param.get("limit");
+    	
+ 		BufferedWriter wr = null;
+ 		String returnMessage = null;
+ 		try {
+ 	        URL url = new URL(surl+data);
+ 	        HttpURLConnection URLConn = (HttpURLConnection) url.openConnection(); 
+ 	   
+ 	        BufferedReader rd = new BufferedReader(new java.io.InputStreamReader(URLConn.getInputStream(),charset)); 
+ 	        String line;
+ 	        while ((line = rd.readLine()) != null) {
+ 	            returnMessage = line;
+ 	        }
+ 	        rd.close();
+ 	      } catch (IOException IOE) {
+ 	          logger.error("doGet happen IOException :{}"+IOE.getMessage());
+ 	      } finally { 
+ 	        if (wr != null) {
+ 	            try { 
+ 	                wr.close(); 
+ 	            } catch (IOException IOE) {
+ 	                logger.error("doGet happen IOException :{}"+IOE.getMessage());
+ 	            } 
+ 	            wr = null; 
+ 	        } 
+ 	      }
+// 		logger.info("回傳摻數:[{}]",returnMessage);
+ 		logger.info("=============== getOrderData ======================");
+ 	      return returnMessage; 
+ 	}
 }
