@@ -76,7 +76,7 @@ public class UserLoginController {
     }
     
     
-    @RequestMapping(value = "/test", method = {RequestMethod.GET})
+    @RequestMapping(value = "/test", method = {RequestMethod.POST})
     public @ResponseBody String testHTML(@RequestParam Map<String,Object> param){
     	logger.info("=============== getOrderData ======================");
     	logger.info("請求參數:[{}]",param);

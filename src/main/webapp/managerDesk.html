@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="layui/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <script src="js/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="layui/layui.js"></script>
 </head>
 
 <body class="layui-layout-body">
@@ -73,37 +76,35 @@
             </div>
             <!-- 搜尋區域 -->
             <form class="layui-form" action="">
-                <div class="layui-form-item">
+                <div class="layui-form-item" id="searchForm">
                     <div class="layui-inline">
                         <label class="layui-form-label" style="padding-right:0px;" >訂單編號：</label>
                         <div class="layui-input-inline">
-                            <input type="tel" name="orderNumber" id="orderNumber" lay-verify="required|number" autocomplete="off" class="layui-input" value="123456798">
+                            <input type="text" name="orderNumber" id="orderNumber" lay-verify="required|number" autocomplete="off" class="layui-input" value="123456">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label" style="padding-right:0px;" >廠商編號：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="customerNumber" id="customerNumber" lay-verify="customerNumber" autocomplete="off" class="layui-input" value="asd20181014123">
+                            <input type="text" name="customerNumber" id="customerNumber" lay-verify="customerNumber" autocomplete="off" class="layui-input" value="asd1234">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label" style="width:125px;padding-right:0px;" >訂單日期(起 - 迄)：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="orderDateRang" id="orderDateRang"  placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                            <input type="text" name="orderDate" id="orderDateRang"  placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-input-block" style="margin-top: 5px;">
-                        <input type="button" id="searchBtn" name="" value="maggieClick">
-                        <button class="layui-btn">查詢</button>
-                         <!-- lay-submit="" lay-filter="demo1" -->
-                        <button type="reset" class="layui-btn layui-btn-primary">清除</button>
-                    </div>
+                </div>
+                <div class="layui-input-block" style="margin-top: 5px;">
+                    <input type="button" class="layui-btn" lay-submit="" id="searchBtn" value="查詢">
+                    <button type="reset" class="layui-btn layui-btn-primary" id="reset" >清除</button>
                 </div>
             </form>
             <!-- 結果區域 -->
             <div style="padding: 5px;">
                 <table class="layui-hide" id="order" lay-filter="demo"></table>
-                <script type="text/html" id="barDemo">
+                <script type="text/html" id="editorBtn">
                     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
                     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -112,80 +113,40 @@
         </div>
         <div class="layui-footer">
             <!-- 底部固定区域 -->
-            © layui.com - 底部固定区域
+            © Junze.com - 0800-123123
         </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="layui/layui.js"></script>
+
     <script>
-    //JavaScript代码区域
-    layui.use('element', function() {
-        var element = layui.element;
-
-    });
+    
     $(function(){
-    	console.log('ID:test123');
-    	
-        $('#searchBtn').bind('click',serchTable);
+        console.log('javaScript Start !!');
+        
+        //監聽事件
+        $('#reset').bind('click',resetSearchData);
+        
     });
 
-
-    var serchTable = function(){
-        console.log('ID:test123');
-	    layui.use('table', function() {
-	        var table = layui.table;
-	        
-	        console.log('1:' + $('#orderNumber').val());
-	        console.log('2:' + $('#customerNumber').val());
-	        console.log('3:' + $('#orderDateRang').val());
-	
-	        //第一个实例
-	        table.render({
-	            elem: '#order', // 對應哪個table 的 id
-	            height: 600, // 表格高度  full - 20  全屏 - 差值
-	            url: '/userLoginController/test?'+$('#orderNumber').val()+'&customerNumber='+$('#customerNumber').val()+'&orderDateRang='+$('#orderDateRang').val(), //数据接口
-	            method: "GET",
-	            page: true, //开启分页
-	            cols: [
-	                [ //表头
-	                    { field: 'id', title: 'ID', width: 80, sort: true, fixed: 'left' },
-	                    { field: 'username', title: '用户名', width: 80 },
-	                    { field: 'sex', title: '性别', width: 80, sort: true },
-	                    { field: 'city', title: '城市', width: 80 },
-	                    { field: 'sign', title: '签名', width: 177 },
-	                    { field: 'experience', title: '积分', width: 80, sort: true },
-	                    { field: 'score', title: '评分', width: 80, sort: true },
-	                    { field: 'classify', title: '职业', width: 80 },
-	                    { field: 'wealth', title: '财富', width: 135, sort: true }
-	                ]
-	            ],
-	            limit: 50,
-	            limits: [10, 30, 50, 100, 300],
-	            loading: true,
-	        });
-	
-	    });
+    var resetSearchData = function(){
+        console.log('reset searchForm !!');
+        $('#searchForm input').val('');
     };
     
-    
-    
-    layui.use(['form', 'layedit', 'laydate'], function() {
-        var form = layui.form,
-            layer = layui.layer,
-            layedit = layui.layedit,
+    //畫面配置檢核
+    layui.use(['form','layedit', 'laydate' , 'table'], function() {
+        var form = layui.form ,
+            layer = layui.layer ,
+            table = layui.table ,
             laydate = layui.laydate;
-        
 
         //日期
         laydate.render({
-            elem: '#orderRangDate',
-            range: true
+            elem: '#orderDateRang',
+            range: '~',
+            format: 'yyyy/MM/dd'
         });
         
-        //创建一个编辑器
-        var editIndex = layedit.build('LAY_demo_editor');
-
+        
         //自定义验证规则
         form.verify({
             title: function(value) {
@@ -196,42 +157,93 @@
             pass: [/(.+){6,12}$/, '密码必须6到12位'],
             content: function(value) {
                 layedit.sync(editIndex);
-            },//
-            customerNumber:[/([a-z]){3}([0-9]){11}$/,'廠商編號格式錯誤']
+            },
+            customerNumber:[/([a-zA-Z]){3}([0-9]){4}$/,'廠商編號格式錯誤 EX.abc1234']
         });
-
-        //监听指定开关
-        form.on('switch(switchTest)', function(data) {
-            layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
-                offset: '6px'
+        
+        //監聽submit  表單驗證完，才會走到這
+        form.on('submit()', function(data){
+        	console.log('123456');
+            bulidTable();
+        });
+        
+        
+        //監聽操作工具
+        table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+          var data = obj.data //获得当前行数据
+          ,layEvent = obj.event; //获得 lay-event 对应的值
+          
+          if(layEvent === 'detail'){
+            layer.msg('查看操作');
+          } else if(layEvent === 'del'){
+            layer.confirm('真的删除行么', function(index){
+              obj.del(); //删除对应行（tr）的DOM结构
+              layer.close(index);
+              //向服务端发送删除指令
             });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+          } else if(layEvent === 'edit'){
+            layer.msg('编辑操作');
+          }
         });
-
-        //监听提交
-        form.on('submit(demo1)', function(data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            });
-            return false;
-        });
-
-        //表单初始赋值
-        form.val('example', {
-            "username": "贤心" // "name": "value"
-                ,
-            "password": "123456",
-            "interest": 1,
-            "like[write]": true //复选框选中状态
-                ,
-            "close": true //开关状态
-                ,
-            "sex": "女",
-            "desc": "我爱 layui"
-        })
-
-
+        
     });
+        
+    var bulidTable = function(){
+    	
+        console.log('ID:test123');
+        
+        var paramStr = '{';
+        $('#searchForm input').each(function(i){
+        	var searchParaCount = $('#searchForm input').size() - 1;
+            if($(this).val() != ''){
+            	if(i != 0){
+            		paramStr += ',';
+            	}
+	        	paramStr += '"' + $(this).attr('name') + '":"' + $(this).val() + '"' ;
+            }
+            
+        	if(i == searchParaCount){
+        		paramStr += '}';
+        	}
+
+        });
+        
+        console.log('paramStr:'+paramStr);
+        
+        layui.use('table', function() {
+            var table = layui.table;
+            
+            obj = JSON.parse(paramStr);
+            
+            //產生表單
+            table.render({
+                elem: '#order', // 對應哪個table 的 id
+                height: 600, // 表格高度  full - 20  全屏 - 差值
+                url: '/userLoginController/test', //数据接口
+                method: "POST",
+                where: obj,
+                page: true, //开启分页
+                cols: [
+                    [ //表头
+                        { field: 'id', title: '訂單號', width: 150, sort: true, fixed: 'left' },
+                        { field: 'username', title: '客戶編號', width: 100 },
+                        { field: 'sex', title: '收件人', width: 100, sort: true },
+                        { field: 'city', title: '地址', width: 300 },
+                        { field: 'sign', title: '電話', width: 150 },
+                        { field: 'experience', title: '訂單日期', width: 110, sort: true },
+                        { field: 'score', title: '訂單金額', width: 110, sort: true },
+                        { field: 'classify', title: '出貨日期', width: 110 },
+                        { field: 'wealth', title: '訂單狀態', width: 110, sort: true },
+                        { fixed: 'right', width: 165, align:'center', toolbar: '#editorBtn'}
+                    ]
+                ],
+                limit: 50,
+                limits: [10, 30, 50, 100, 300],
+                loading: true,
+            });
+    
+        });
+    };
     </script>
 </body>
 
